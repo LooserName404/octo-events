@@ -13,12 +13,6 @@ class WebhookController : KoinComponent {
 
     fun create(ctx: Context) {
         val (event, action, sender, repository, organization, createdAt) = ctx.body<UnparsedWebhook>()
-        println(event)
-        println(action)
-        println(sender)
-        println(repository)
-        println(organization)
-        println(createdAt)
         webhookService.create(Webhook(event, action, sender.name, repository?.full_name, organization?.login, createdAt))
     }
 }

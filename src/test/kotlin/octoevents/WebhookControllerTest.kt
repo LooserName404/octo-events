@@ -75,6 +75,13 @@ class WebhookControllerTest : KoinTest {
         sut.create(ctx)
     }
 
+    @Test
+    fun `Should respond with status code 201 when create method runs correctly`() {
+        val sut = WebhookController()
+        sut.create(ctx)
+        verify { ctx.status(201) }
+    }
+
     private fun makeUnparsedWebhook(): UnparsedWebhook {
         val event = "TestEvent"
         val action = "TestAction"

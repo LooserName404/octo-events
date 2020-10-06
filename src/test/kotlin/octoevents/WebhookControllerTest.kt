@@ -45,12 +45,13 @@ class WebhookControllerTest : KoinTest {
     @BeforeTest
     fun setUp() {
         MockKAnnotations.init(this)
+        every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
     }
 
     @Test
     fun `Should call create from WebhookService when its create is called`() {
         val sut = WebhookController()
-        val date = Date()
+        val date = Date(0)
         every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(createdAt = date) }
         sut.create(ctx)
         verify { webhookServiceStub.create(Webhook(createdAt = date)) }
@@ -58,29 +59,39 @@ class WebhookControllerTest : KoinTest {
 
     @Test
     fun `Should pass the right data to WebhookService create method`() {
-        val event = "TestEvent"
-        val action = "TestAction"
-        val sender = Sender("TestSender")
-        val repository = Repository("TestRepo")
-        val organization = Organization("TestOrg")
-        val createdAt = Date(0)
-        val unparsedWebhook = UnparsedWebhook(event, action, sender, repository, organization, createdAt)
-
-        every { ctx.body<UnparsedWebhook>() } answers { unparsedWebhook }
         val sut = WebhookController()
         sut.create(ctx)
         verify {
             webhookServiceStub.create(
-                Webhook(event, action, sender.name, repository.full_name, organization.login, createdAt)
+                makeWebhook()
             )
         }
     }
 
     @Test(expected = Exception::class)
     fun `Should throw if WebhookService throws`() {
-        every { webhookServiceStub.create(Webhook()) } throws Exception("Test Exception")
+        every { webhookServiceStub.create(makeWebhook()) } throws Exception("Test Exception")
         val sut = WebhookController()
         sut.create(ctx)
     }
 
+    private fun makeUnparsedWebhook(): UnparsedWebhook {
+        val event = "TestEvent"
+        val action = "TestAction"
+        val sender = Sender("TestSender")
+        val repository = Repository("TestRepo")
+        val organization = Organization("TestOrg")
+        val createdAt = Date(0)
+        return UnparsedWebhook(event, action, sender, repository, organization, createdAt)
+    }
+
+    private fun makeWebhook(): Webhook {
+        val event = "TestEvent"
+        val action = "TestAction"
+        val sender = "TestSender"
+        val repository = "TestRepo"
+        val organization = "TestOrg"
+        val createdAt = Date(0)
+        return Webhook(event, action, sender, repository, organization, createdAt)
+    }
 }

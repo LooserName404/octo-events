@@ -76,4 +76,11 @@ class WebhookControllerTest : KoinTest {
         }
     }
 
+    @Test(expected = Exception::class)
+    fun `Should throw if WebhookService throws`() {
+        every { webhookServiceStub.create(Webhook()) } throws Exception("Test Exception")
+        val sut = WebhookController()
+        sut.create(ctx)
+    }
+
 }

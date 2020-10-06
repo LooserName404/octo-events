@@ -10,5 +10,10 @@ fun main(args: Array<String>) {
         printLogger(Level.NONE)
         modules(injectableModules)
     }
+
     val app = Javalin.create().start()
+
+    app.get("/") {
+
+    }
 }

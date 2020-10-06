@@ -27,3 +27,9 @@ fun makeWebhook(): Webhook {
     val createdAt = Date(0)
     return Webhook(event, action, sender, repository, organization, createdAt)
 }
+
+fun makeWebhookRepository(): WebhookRepository {
+    return object : WebhookRepository {
+        override fun insert(webhook: Webhook) { }
+    }
+}

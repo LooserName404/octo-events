@@ -33,6 +33,7 @@ class WebhookControllerTest : KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         modules(module {
+            single { makeWebhookRepository() }
             single { webhookServiceStub }
         })
     }

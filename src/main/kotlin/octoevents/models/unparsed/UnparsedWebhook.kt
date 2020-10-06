@@ -7,7 +7,6 @@ data class Repository(val full_name: String = "")
 data class Organization(val login: String = "")
 
 data class UnparsedWebhook(
-    val event: String = "",
     val action: String? = "",
     val sender: Sender = Sender(),
     val repository: Repository? = null,

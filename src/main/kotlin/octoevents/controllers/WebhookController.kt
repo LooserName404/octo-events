@@ -12,7 +12,8 @@ class WebhookController : KoinComponent {
     private val webhookService by inject<WebhookService>()
 
     fun create(ctx: Context) {
-        val (event, action, sender, repository, organization, createdAt) = ctx.body<UnparsedWebhook>()
+        val (action, sender, repository, organization, createdAt) = ctx.body<UnparsedWebhook>()
+        val event = ctx.header<String>("X-GitHub-Event").get()
         webhookService.create(Webhook(event, action, sender.name, repository?.full_name, organization?.login, createdAt))
         ctx.status(201)
     }

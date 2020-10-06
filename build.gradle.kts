@@ -22,9 +22,15 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.3")
     implementation("com.konghq:unirest-java:3.11.00")
+    implementation("org.postgresql:postgresql:42.2.16")
+    implementation("org.jetbrains.exposed:exposed-core:0.24.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.24.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.24.1")
+    implementation("org.jetbrains.exposed:exposed-java-time:0.24.1")
     testImplementation(kotlin("test-junit"))
     testImplementation("org.koin:koin-test:$koin_version")
     testImplementation("io.mockk:mockk:1.10.2")
+    testImplementation("com.h2database:h2:1.4.199")
 }
 
 tasks.withType<KotlinCompile> {

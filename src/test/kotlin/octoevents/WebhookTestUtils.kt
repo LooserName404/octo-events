@@ -9,13 +9,12 @@ import octoevents.models.unparsed.UnparsedWebhook
 import java.util.*
 
 fun makeUnparsedWebhook(): UnparsedWebhook {
-    val event = "TestEvent"
     val action = "TestAction"
     val sender = Sender("TestSender")
     val repository = Repository("TestRepo")
     val organization = Organization("TestOrg")
     val createdAt = Date(0)
-    return UnparsedWebhook(event, action, sender, repository, organization, createdAt)
+    return UnparsedWebhook(action, sender, repository, organization, createdAt)
 }
 
 fun makeWebhook(): Webhook {

@@ -45,6 +45,7 @@ class WebhookControllerTest : KoinTest {
 
     @BeforeTest
     fun setUp() {
+        every { ctx.header<String>("X-GitHub-Event").get() } answers { "TestEvent" }
         every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
     }
 
@@ -54,7 +55,7 @@ class WebhookControllerTest : KoinTest {
         val date = Date(0)
         every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(createdAt = date) }
         sut.create(ctx)
-        verify { webhookServiceStub.create(Webhook(createdAt = date)) }
+        verify { webhookServiceStub.create(Webhook(event = "TestEvent", createdAt = date)) }
     }
 
     @Test

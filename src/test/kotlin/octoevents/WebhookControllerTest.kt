@@ -81,24 +81,4 @@ class WebhookControllerTest : KoinTest {
         sut.create(ctx)
         verify { ctx.status(201) }
     }
-
-    private fun makeUnparsedWebhook(): UnparsedWebhook {
-        val event = "TestEvent"
-        val action = "TestAction"
-        val sender = Sender("TestSender")
-        val repository = Repository("TestRepo")
-        val organization = Organization("TestOrg")
-        val createdAt = Date(0)
-        return UnparsedWebhook(event, action, sender, repository, organization, createdAt)
-    }
-
-    private fun makeWebhook(): Webhook {
-        val event = "TestEvent"
-        val action = "TestAction"
-        val sender = "TestSender"
-        val repository = "TestRepo"
-        val organization = "TestOrg"
-        val createdAt = Date(0)
-        return Webhook(event, action, sender, repository, organization, createdAt)
-    }
 }

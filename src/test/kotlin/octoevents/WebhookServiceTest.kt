@@ -1,5 +1,6 @@
 package octoevents
 
+import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.spyk
 import io.mockk.verify
@@ -44,5 +45,13 @@ class WebhookServiceTest : KoinTest {
         val webhook = makeWebhook()
         sut.create(webhook)
         verify { webhookRepositoryStub.insert(webhook) }
+    }
+
+    @Test(expected = Exception::class)
+    fun `Should throw when WebhookRepository throws`() {
+        val webhook = makeWebhook()
+        every { webhookRepositoryStub.insert(webhook) } throws Exception("TestException")
+        val sut = WebhookService()
+        sut.create(webhook)
     }
 }

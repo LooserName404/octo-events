@@ -8,7 +8,7 @@ data class Organization(val login: String = "")
 
 data class UnparsedWebhook(
     val event: String = "",
-    val action: String = "",
+    val action: String? = "",
     val sender: Sender = Sender(),
     val repository: Repository? = null,
     val organization: Organization? = null,

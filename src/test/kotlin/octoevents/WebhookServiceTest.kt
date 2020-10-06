@@ -11,6 +11,7 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.mock.MockProviderRule
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.Test
 
@@ -35,8 +36,8 @@ class WebhookServiceTest : KoinTest {
     @Test
     fun `Should call insert from WebhookRepository when create method is called`() {
         val sut = WebhookService()
-        sut.create(Webhook(createdAt = Date(0)))
-        verify { webhookRepositoryStub.insert(Webhook(createdAt = Date(0))) }
+        sut.create(Webhook(createdAt = LocalDateTime.MIN))
+        verify { webhookRepositoryStub.insert(Webhook(createdAt = LocalDateTime.MIN)) }
     }
 
     @Test

@@ -18,6 +18,7 @@ import org.koin.test.KoinTestRule
 import org.koin.test.get
 import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -52,7 +53,7 @@ class WebhookControllerTest : KoinTest {
     @Test
     fun `Should call create from WebhookService when its create is called`() {
         val sut = WebhookController()
-        val date = Date(0)
+        val date = LocalDateTime.now()
         every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(createdAt = date) }
         sut.create(ctx)
         verify { webhookServiceStub.create(Webhook(event = "TestEvent", createdAt = date)) }

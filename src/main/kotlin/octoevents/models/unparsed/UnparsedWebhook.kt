@@ -1,6 +1,6 @@
 package octoevents.models.unparsed
 
-import java.util.*
+import java.time.LocalDateTime
 
 data class Sender(val name: String = "")
 data class Repository(val full_name: String = "")
@@ -11,5 +11,5 @@ data class UnparsedWebhook(
     val sender: Sender = Sender(),
     val repository: Repository? = null,
     val organization: Organization? = null,
-    val createdAt: Date = Date()
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )

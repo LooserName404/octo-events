@@ -1,6 +1,6 @@
 package octoevents.models.entities
 
-import java.util.*
+import java.time.LocalDateTime
 
 data class Webhook(
     val event: String = "",
@@ -8,5 +8,5 @@ data class Webhook(
     val sender: String = "",
     val repository: String? = null,
     val organization: String? = null,
-    val createdAt: Date = Date()
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )

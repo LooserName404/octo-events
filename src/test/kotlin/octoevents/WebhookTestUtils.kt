@@ -6,6 +6,7 @@ import octoevents.models.unparsed.Organization
 import octoevents.models.unparsed.Repository
 import octoevents.models.unparsed.Sender
 import octoevents.models.unparsed.UnparsedWebhook
+import java.time.LocalDateTime
 import java.util.*
 
 fun makeUnparsedWebhook(): UnparsedWebhook {
@@ -13,7 +14,7 @@ fun makeUnparsedWebhook(): UnparsedWebhook {
     val sender = Sender("TestSender")
     val repository = Repository("TestRepo")
     val organization = Organization("TestOrg")
-    val createdAt = Date(0)
+    val createdAt = LocalDateTime.MIN
     return UnparsedWebhook(action, sender, repository, organization, createdAt)
 }
 
@@ -23,7 +24,7 @@ fun makeWebhook(): Webhook {
     val sender = "TestSender"
     val repository = "TestRepo"
     val organization = "TestOrg"
-    val createdAt = Date(0)
+    val createdAt = LocalDateTime.MIN
     return Webhook(event, action, sender, repository, organization, createdAt)
 }
 

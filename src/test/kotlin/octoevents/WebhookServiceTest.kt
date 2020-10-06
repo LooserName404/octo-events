@@ -10,6 +10,7 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.mock.MockProviderRule
+import java.util.*
 import kotlin.test.Test
 
 class WebhookServiceTest : KoinTest {
@@ -33,9 +34,15 @@ class WebhookServiceTest : KoinTest {
     @Test
     fun `Should call insert from WebhookRepository when create method is called`() {
         val sut = WebhookService()
-        val webhook = Webhook()
+        sut.create(Webhook(createdAt = Date(0)))
+        verify { webhookRepositoryStub.insert(Webhook(createdAt = Date(0))) }
+    }
+
+    @Test
+    fun `Should pass the correct data to WebhookRepository on create method call`() {
+        val sut = WebhookService()
+        val webhook = makeWebhook()
         sut.create(webhook)
         verify { webhookRepositoryStub.insert(webhook) }
     }
-
 }

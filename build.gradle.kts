@@ -21,6 +21,7 @@ dependencies {
     implementation("org.koin:koin-core:$koin_version")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.10.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.3")
+    implementation("com.konghq:unirest-java:3.11.00")
     testImplementation(kotlin("test-junit"))
     testImplementation("org.koin:koin-test:$koin_version")
     testImplementation("io.mockk:mockk:1.10.2")

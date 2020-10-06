@@ -45,7 +45,6 @@ class WebhookControllerTest : KoinTest {
 
     @BeforeTest
     fun setUp() {
-        MockKAnnotations.init(this)
         every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
     }
 

@@ -1,3 +1,5 @@
+package octoevents
+
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import io.mockk.*
@@ -49,6 +51,5 @@ class WebhookControllerTest : KoinTest {
 
         verify { webhookServiceStub.create() }
     }
-
 
 }

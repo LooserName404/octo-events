@@ -5,7 +5,13 @@ val koin_version = "2.1.6"
 
 plugins {
     kotlin("jvm") version "1.4.10"
+    application
 }
+
+application {
+    mainClassName = "octoevents.Main"
+}
+
 group = "dev.loosername"
 version = "1.0-SNAPSHOT"
 

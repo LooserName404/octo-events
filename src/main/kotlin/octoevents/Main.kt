@@ -1,3 +1,5 @@
+@file:JvmName("Main")
+
 package octoevents
 
 import octoevents.config.AppFactory

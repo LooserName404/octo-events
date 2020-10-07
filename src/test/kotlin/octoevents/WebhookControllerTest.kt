@@ -126,9 +126,9 @@ class WebhookControllerTest : KoinTest {
 
     @Test
     fun `Should respond with Webhook list when listAll runs correctly`() {
-        every { webhookServiceStub.listAll(1) } answers { mapOf<Int, Webhook>() }
+        every { webhookServiceStub.listAll(1) } answers { listOf<Webhook>() }
         val sut = WebhookController()
         sut.listAll(ctx)
-        verify { ctx.json(mapOf<Int, Webhook>()) }
+        verify { ctx.json(listOf<Webhook>()) }
     }
 }

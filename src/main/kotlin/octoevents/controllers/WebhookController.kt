@@ -21,7 +21,7 @@ class WebhookController : KoinComponent {
 
     fun listAll(ctx: Context) {
         val issue = ctx.pathParam<Int>("issue").get()
-        val webhookMap = webhookService.listAll(issue)
-        ctx.json(webhookMap)
+        val webhooks = webhookService.listAll(issue)
+        ctx.json(webhooks)
     }
 }

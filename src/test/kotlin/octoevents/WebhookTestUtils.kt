@@ -41,6 +41,7 @@ fun makeWebhook(): Webhook {
 fun makeWebhookRepository(): WebhookRepository {
     return object : WebhookRepository {
         override fun insert(webhook: Webhook) { }
+        override fun findByIssue(issue: Int): List<Webhook> = listOf()
     }
 }
 

@@ -13,6 +13,7 @@ import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.mock.MockProviderRule
 import java.time.LocalDateTime
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 class WebhookServiceTest : KoinTest {
@@ -73,5 +74,12 @@ class WebhookServiceTest : KoinTest {
         every { webhookRepositoryStub.insert(webhook) } throws Exception("TestException")
         val sut = WebhookService()
         sut.create(makeUnparsedWebhook(), "TestEvent")
+    }
+
+    @Test
+    fun `Should call findByIssue from WebhookRepository when listByIssue is called`() {
+        val sut = WebhookService()
+        sut.listByIssue(1)
+        verify { webhookRepositoryStub.findByIssue(1) }
     }
 }

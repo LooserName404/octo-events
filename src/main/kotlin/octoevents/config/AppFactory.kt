@@ -16,7 +16,7 @@ class AppFactory {
             return app
         }
 
-        private fun makeRoutes(app: Javalin) {
+        fun makeRoutes(app: Javalin) {
             app.post("/events", WebhookController()::create)
         }
     }

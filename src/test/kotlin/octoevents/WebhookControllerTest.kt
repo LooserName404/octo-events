@@ -59,15 +59,15 @@ class WebhookControllerTest : KoinTest {
         sut.create(ctx)
         verify {
             webhookServiceStub.create(
-                Webhook(
-                    event = "TestEvent",
-                    issue = 1,
-                    text = "Test: Test Issue",
-                    action = "TestAction",
-                    sender = "TestLogin",
-                    repository = "TestRepo",
-                    createdAt = date
-                )
+                UnparsedWebhook(
+                    Issue(1, "Test", "Test Issue"),
+                    "TestAction",
+                    Sender("TestLogin"),
+                    Repository("TestRepo"),
+                    date,
+                    null
+                ),
+                "TestEvent"
             )
         }
     }
@@ -76,16 +76,12 @@ class WebhookControllerTest : KoinTest {
     fun `Should pass the right data to WebhookService create method`() {
         val sut = WebhookController()
         sut.create(ctx)
-        verify {
-            webhookServiceStub.create(
-                makeWebhook()
-            )
-        }
+        verify { webhookServiceStub.create(makeUnparsedWebhook(), "TestEvent") }
     }
 
     @Test(expected = Exception::class)
     fun `Should throw if WebhookService throws`() {
-        every { webhookServiceStub.create(makeWebhook()) } throws Exception("Test Exception")
+        every { webhookServiceStub.create(makeUnparsedWebhook(), "TestEvent") } throws Exception("Test Exception")
         val sut = WebhookController()
         sut.create(ctx)
     }

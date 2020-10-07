@@ -4,7 +4,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.Javalin
 import io.javalin.plugin.json.JavalinJackson
 import octoevents.config.AppFactory
-import octoevents.config.startSchemas
 import octoevents.models.entities.Webhook
 import octoevents.models.entities.WebhookTable
 import octoevents.models.repositories.DbWebhookRepository
@@ -17,7 +16,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.time.LocalDateTime
-import java.util.*
 
 fun makeUnparsedWebhook(): UnparsedWebhook {
     val issue = Issue(1, "Test", "Test Issue")

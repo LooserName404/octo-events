@@ -3,6 +3,10 @@ package octoevents
 import io.mockk.*
 import octoevents.models.entities.Webhook
 import octoevents.models.services.WebhookService
+import octoevents.models.unparsed.Issue
+import octoevents.models.unparsed.Repository
+import octoevents.models.unparsed.Sender
+import octoevents.models.unparsed.UnparsedWebhook
 import org.junit.Rule
 import org.koin.dsl.module
 import org.koin.test.KoinTest
@@ -32,6 +36,15 @@ class WebhookServiceTest : KoinTest {
     @Test
     fun `Should call insert from WebhookRepository when create method is called`() {
         val sut = WebhookService()
+        val date = LocalDateTime.now()
+        val unparsedWebhook = UnparsedWebhook(
+            Issue(1, "Test", "Test Issue"),
+            "TestAction",
+            Sender("TestLogin"),
+            Repository("TestRepo"),
+            date,
+            null
+        )
         val webhook = Webhook(
             "TestEvent",
             1,
@@ -39,17 +52,18 @@ class WebhookServiceTest : KoinTest {
             "TestAction",
             "TestLogin",
             "TestRepo",
-            LocalDateTime.now()
+            date
         )
-        sut.create(webhook)
+        sut.create(unparsedWebhook, "TestEvent")
         verify { webhookRepositoryStub.insert(webhook) }
     }
 
     @Test
     fun `Should pass the correct data to WebhookRepository on create method call`() {
         val sut = WebhookService()
+        val unparsedWebhook = makeUnparsedWebhook()
         val webhook = makeWebhook()
-        sut.create(webhook)
+        sut.create(unparsedWebhook, "TestEvent")
         verify { webhookRepositoryStub.insert(webhook) }
     }
 
@@ -58,6 +72,6 @@ class WebhookServiceTest : KoinTest {
         val webhook = makeWebhook()
         every { webhookRepositoryStub.insert(webhook) } throws Exception("TestException")
         val sut = WebhookService()
-        sut.create(webhook)
+        sut.create(makeUnparsedWebhook(), "TestEvent")
     }
 }

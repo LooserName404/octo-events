@@ -60,6 +60,21 @@ class IntegrationTest : KoinTest {
         assertEquals(201, response.status)
     }
 
+    @Test
+    fun `Should return status 400 from POST events when sender is missing`() {
+        val response: HttpResponse<String> =
+            Unirest
+                .post("http://localhost:9999/events")
+                .header("X-GitHub-Event", "testEvent")
+                .body(UnparsedWebhook(
+                    action = "testAction",
+                    repository = Repository("testRepo"),
+                    organization = Organization("testOrg"),
+                    createdAt = LocalDateTime.now()
+                )).asString()
+        assertEquals(400, response.status)
+    }
+
     companion object {
         private var app = makeTestApp()
         private val PORT = 9999

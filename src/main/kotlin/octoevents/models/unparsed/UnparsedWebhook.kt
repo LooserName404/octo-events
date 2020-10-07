@@ -1,10 +1,11 @@
 package octoevents.models.unparsed
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Sender(val login: String = "")
+data class Sender(@JsonProperty(required = true) val login: String = "")
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Repository(val full_name: String = "")

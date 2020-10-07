@@ -54,9 +54,9 @@ class WebhookControllerTest : KoinTest {
     fun `Should call create from WebhookService when its create is called`() {
         val sut = WebhookController()
         val date = LocalDateTime.now()
-        every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(createdAt = date) }
+        every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(sender = Sender("TestLogin"), createdAt = date) }
         sut.create(ctx)
-        verify { webhookServiceStub.create(Webhook(event = "TestEvent", createdAt = date)) }
+        verify { webhookServiceStub.create(Webhook(event = "TestEvent", sender = "TestLogin", createdAt = date)) }
     }
 
     @Test

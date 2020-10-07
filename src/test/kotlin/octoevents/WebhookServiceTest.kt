@@ -95,4 +95,11 @@ class WebhookServiceTest : KoinTest {
         sut.listByIssue(33)
         verify { webhookRepositoryStub.findByIssue(33) }
     }
+
+    @Test(expected = Exception::class)
+    fun `Should throw when WebhookRepository findByIssue throws`() {
+        every { webhookRepositoryStub.findByIssue(1) } throws Exception()
+        val sut = WebhookService()
+        sut.listByIssue(1)
+    }
 }

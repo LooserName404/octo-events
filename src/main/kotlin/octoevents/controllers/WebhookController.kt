@@ -13,8 +13,12 @@ class WebhookController : KoinComponent {
     private val webhookService by inject<WebhookService>()
 
     fun create(ctx: Context) {
-        val unparsedWebhook = ctx.body<UnparsedWebhook>()
         val event = ctx.header<String>("X-GitHub-Event").get()
+        if (event == "ping") {
+            ctx.status(204)
+            return
+        }
+        val unparsedWebhook = ctx.body<UnparsedWebhook>()
         webhookService.create(unparsedWebhook, event)
         ctx.status(201)
     }

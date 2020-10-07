@@ -33,6 +33,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.24.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.24.1")
     implementation("org.jetbrains.exposed:exposed-java-time:0.24.1")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.3")
     testImplementation(kotlin("test-junit"))
     testImplementation("org.koin:koin-test:$koin_version")
     testImplementation("io.mockk:mockk:1.10.2")

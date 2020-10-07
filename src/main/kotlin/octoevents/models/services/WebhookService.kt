@@ -16,6 +16,9 @@ class WebhookService : KoinComponent {
         val text = if (comment != null && comment.body.isNotEmpty()) {
             comment.body
         } else {
+            if (issue.body.isEmpty()) {
+                issue.title
+            }
             val issueBody = if (issue.body.length > 200) {
                 issue.body.substring(0..200) + "..."
             } else {

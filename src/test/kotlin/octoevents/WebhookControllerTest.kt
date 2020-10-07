@@ -40,6 +40,7 @@ class WebhookControllerTest : KoinTest {
     fun setUp() {
         every { ctx.header<String>("X-GitHub-Event").get() } answers { "TestEvent" }
         every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
+        every { ctx.pathParam<Int>("issue").get() } answers { 1 }
     }
 
     @Test
@@ -91,5 +92,12 @@ class WebhookControllerTest : KoinTest {
         val sut = WebhookController()
         sut.create(ctx)
         verify { ctx.status(201) }
+    }
+
+    @Test
+    fun `Should call listAll from WebhookService when listAll is called`() {
+        val sut = WebhookController()
+        sut.listAll(ctx)
+        verify { webhookServiceStub.listAll(1) }
     }
 }

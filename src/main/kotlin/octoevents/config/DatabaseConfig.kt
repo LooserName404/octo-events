@@ -1,6 +1,6 @@
 package octoevents.config
 
-import octoevents.models.repositories.WebhookTable
+import octoevents.models.entities.WebhookTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

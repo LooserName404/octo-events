@@ -93,6 +93,15 @@ class WebhookControllerTest : KoinTest {
     }
 
     @Test
+    fun `Should respond with status code 204 when GitHub Event is ping`() {
+        every { ctx.header<String>("X-GitHub-Event").get() } answers { "ping" }
+        val sut = WebhookController()
+        sut.create(ctx)
+        verify { ctx.status(204) }
+        verify(exactly = 0) { webhookServiceStub.create(makeUnparsedWebhook(), "ping") }
+    }
+
+    @Test
     fun `Should call listByIssue from WebhookService when listByIssue is called`() {
         val sut = WebhookController()
         sut.listByIssue(ctx)

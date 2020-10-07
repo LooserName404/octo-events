@@ -11,10 +11,11 @@ import java.time.LocalDateTime
 
 object WebhookTable : LongIdTable(name = "Webhook") {
     val event: Column<String> = varchar("event", 32)
-    val action: Column<String?> = varchar("action", 32).nullable()
+    val issue: Column<Int> = integer("issue")
+    val text: Column<String> = varchar("text", 512)
+    val action: Column<String> = varchar("action", 32)
     val sender: Column<String> = varchar("sender", 64)
-    val repository: Column<String?> = varchar("repository", 128).nullable()
-    val organization: Column<String?> = varchar("organization", 128).nullable()
+    val repository: Column<String> = varchar("repository", 128)
     val createdAt: Column<LocalDateTime> = datetime("created_at").default(LocalDateTime.now())
 }
 
@@ -22,9 +23,10 @@ class WebhookEntity(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<WebhookEntity>(WebhookTable)
 
     var event by WebhookTable.event
+    var issue by WebhookTable.issue
+    var text by WebhookTable.text
     var action by WebhookTable.action
     var sender by WebhookTable.sender
     var repository by WebhookTable.repository
-    var organization by WebhookTable.organization
     var createdAt by WebhookTable.createdAt
 }

@@ -1,25 +1,20 @@
 package octoevents
 
-import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import io.mockk.*
 import octoevents.controllers.WebhookController
 import octoevents.models.entities.Webhook
 import octoevents.models.services.WebhookService
-import octoevents.models.unparsed.Organization
+import octoevents.models.unparsed.Issue
 import octoevents.models.unparsed.Repository
 import octoevents.models.unparsed.Sender
 import octoevents.models.unparsed.UnparsedWebhook
 import org.junit.Rule
-import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
-import org.koin.test.get
 import org.koin.test.mock.MockProviderRule
-import org.koin.test.mock.declareMock
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -54,9 +49,30 @@ class WebhookControllerTest : KoinTest {
     fun `Should call create from WebhookService when its create is called`() {
         val sut = WebhookController()
         val date = LocalDateTime.now()
-        every { ctx.body<UnparsedWebhook>() } answers { UnparsedWebhook(sender = Sender("TestLogin"), createdAt = date) }
+        every { ctx.body<UnparsedWebhook>() } answers {
+            UnparsedWebhook(
+                Issue(1, "Test", "Test Issue"),
+                "TestAction",
+                Sender("TestLogin"),
+                Repository("TestRepo"),
+                date,
+                null
+            )
+        }
         sut.create(ctx)
-        verify { webhookServiceStub.create(Webhook(event = "TestEvent", sender = "TestLogin", createdAt = date)) }
+        verify {
+            webhookServiceStub.create(
+                Webhook(
+                    event = "TestEvent",
+                    issue = 1,
+                    text = "Test: Test Issue",
+                    action = "TestAction",
+                    sender = "TestLogin",
+                    repository = "TestRepo",
+                    createdAt = date
+                )
+            )
+        }
     }
 
     @Test

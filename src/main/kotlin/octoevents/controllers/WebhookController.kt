@@ -13,12 +13,26 @@ class WebhookController : KoinComponent {
     private val webhookService by inject<WebhookService>()
 
     fun create(ctx: Context) {
-        val (action, sender, repository, organization, createdAt) = ctx.body<UnparsedWebhook>()
+        val (issue, action, sender, repository, createdAt, comment) = ctx.body<UnparsedWebhook>()
         if (sender.login.isEmpty()) {
             throw BadRequestResponse("Missing param: Sender login")
         }
+
         val event = ctx.header<String>("X-GitHub-Event").get()
-        webhookService.create(Webhook(event, action, sender.login, repository?.full_name, organization?.login, createdAt))
+        val text: String
+
+        if (comment != null && comment.body.isNotEmpty()) {
+            text = comment.body
+        } else {
+            val issueBody = if (issue.body.length > 200) {
+                issue.body.substring(0..200) + "..."
+            } else {
+                issue.body
+            }
+            text = "${issue.title}: $issueBody"
+        }
+
+        webhookService.create(Webhook(event, issue.number, text, action, sender.login, repository.full_name, createdAt))
         ctx.status(201)
     }
 }

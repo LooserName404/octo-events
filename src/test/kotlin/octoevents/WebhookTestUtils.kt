@@ -10,10 +10,7 @@ import octoevents.models.entities.WebhookTable
 import octoevents.models.repositories.DbWebhookRepository
 import octoevents.models.repositories.WebhookRepository
 import octoevents.models.services.WebhookService
-import octoevents.models.unparsed.Organization
-import octoevents.models.unparsed.Repository
-import octoevents.models.unparsed.Sender
-import octoevents.models.unparsed.UnparsedWebhook
+import octoevents.models.unparsed.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -23,22 +20,24 @@ import java.time.LocalDateTime
 import java.util.*
 
 fun makeUnparsedWebhook(): UnparsedWebhook {
+    val issue = Issue(1, "Test", "Test Issue")
     val action = "TestAction"
     val sender = Sender("TestSender")
     val repository = Repository("TestRepo")
-    val organization = Organization("TestOrg")
     val createdAt = LocalDateTime.MIN
-    return UnparsedWebhook(action, sender, repository, organization, createdAt)
+    val comment: Comment? = null
+    return UnparsedWebhook(issue, action, sender, repository, createdAt, comment)
 }
 
 fun makeWebhook(): Webhook {
     val event = "TestEvent"
+    val issue = 1
+    val text = "Test: Test Issue"
     val action = "TestAction"
     val sender = "TestSender"
     val repository = "TestRepo"
-    val organization = "TestOrg"
     val createdAt = LocalDateTime.MIN
-    return Webhook(event, action, sender, repository, organization, createdAt)
+    return Webhook(event, issue, text, action, sender, repository, createdAt)
 }
 
 fun makeWebhookRepository(): WebhookRepository {

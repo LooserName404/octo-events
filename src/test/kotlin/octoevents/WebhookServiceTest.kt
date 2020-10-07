@@ -36,8 +36,17 @@ class WebhookServiceTest : KoinTest {
     @Test
     fun `Should call insert from WebhookRepository when create method is called`() {
         val sut = WebhookService()
-        sut.create(Webhook(createdAt = LocalDateTime.MIN))
-        verify { webhookRepositoryStub.insert(Webhook(createdAt = LocalDateTime.MIN)) }
+        val webhook = Webhook(
+            "TestEvent",
+            1,
+            "Test: Test Issue",
+            "TestAction",
+            "TestLogin",
+            "TestRepo",
+            LocalDateTime.now()
+        )
+        sut.create(webhook)
+        verify { webhookRepositoryStub.insert(webhook) }
     }
 
     @Test

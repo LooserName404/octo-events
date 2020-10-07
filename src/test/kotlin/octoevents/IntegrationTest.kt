@@ -9,10 +9,7 @@ import io.mockk.spyk
 import kong.unirest.HttpResponse
 import kong.unirest.Unirest
 import octoevents.config.AppFactory
-import octoevents.models.unparsed.Organization
-import octoevents.models.unparsed.Repository
-import octoevents.models.unparsed.Sender
-import octoevents.models.unparsed.UnparsedWebhook
+import octoevents.models.unparsed.*
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -51,28 +48,14 @@ class IntegrationTest : KoinTest {
                 .post("http://localhost:9999/events")
                 .header("X-GitHub-Event", "testEvent")
                 .body(UnparsedWebhook(
+                    Issue(1, "Test", "Test Issue"),
                     "testAction",
                     Sender("testSender"),
                     Repository("testRepo"),
-                    Organization("testOrg"),
-                    LocalDateTime.now()
+                    LocalDateTime.now(),
+                    null
                 )).asString()
         assertEquals(201, response.status)
-    }
-
-    @Test
-    fun `Should return status 400 from POST events when sender is missing`() {
-        val response: HttpResponse<String> =
-            Unirest
-                .post("http://localhost:9999/events")
-                .header("X-GitHub-Event", "testEvent")
-                .body(UnparsedWebhook(
-                    action = "testAction",
-                    repository = Repository("testRepo"),
-                    organization = Organization("testOrg"),
-                    createdAt = LocalDateTime.now()
-                )).asString()
-        assertEquals(400, response.status)
     }
 
     companion object {

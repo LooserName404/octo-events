@@ -14,10 +14,11 @@ class DbWebhookRepository : KoinComponent, WebhookRepository {
         transaction(db) {
             WebhookEntity.new {
                 event = webhook.event
+                issue = webhook.issue
+                text = webhook.text
                 action = webhook.action
                 sender = webhook.sender
                 repository = webhook.repository
-                organization = webhook.organization
                 createdAt = webhook.createdAt
             }
         }

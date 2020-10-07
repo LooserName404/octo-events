@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class Webhook(
     val event: String = "",
-    val action: String? = "",
+    val action: String? = null,
     val sender: String = "",
     val repository: String? = null,
     val organization: String? = null,

@@ -39,11 +39,10 @@ class WebhookServiceTest : KoinTest {
         val sut = WebhookService()
         val date = LocalDateTime.now()
         val unparsedWebhook = UnparsedWebhook(
-            Issue(1, "Test", "Test Issue"),
+            Issue(1, "Test", "Test Issue", date),
             "TestAction",
             Sender("TestLogin"),
             Repository("TestRepo"),
-            date,
             null
         )
         val webhook = Webhook(

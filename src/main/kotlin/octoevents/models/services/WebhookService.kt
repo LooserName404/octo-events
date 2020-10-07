@@ -11,7 +11,7 @@ class WebhookService : KoinComponent {
     private val webhookRepository by inject<WebhookRepository>()
 
     fun create(unparsedWebhook: UnparsedWebhook, event: String) {
-        val (issue, action, sender, repository, createdAt, comment) = unparsedWebhook
+        val (issue, action, sender, repository, comment) = unparsedWebhook
 
         val text = if (comment != null && comment.body.isNotEmpty()) {
             comment.body
@@ -22,6 +22,12 @@ class WebhookService : KoinComponent {
                 issue.body
             }
             "${issue.title}: $issueBody"
+        }
+
+        val createdAt = if (comment != null) {
+            comment.createdAt
+        } else {
+            issue.createdAt
         }
 
         val webhook = Webhook(event, issue.number, text, action, sender.login, repository.full_name, createdAt)

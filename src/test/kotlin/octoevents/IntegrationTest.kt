@@ -40,11 +40,10 @@ class IntegrationTest : KoinTest {
                 .post("http://localhost:9999/events")
                 .header("X-GitHub-Event", "testEvent")
                 .body(UnparsedWebhook(
-                    Issue(1, "Test", "Test Issue"),
+                    Issue(1, "Test", "Test Issue", LocalDateTime.now()),
                     "testAction",
                     Sender("testSender"),
                     Repository("testRepo"),
-                    LocalDateTime.now(),
                     null
                 )).asString()
         assertEquals(201, response.status)

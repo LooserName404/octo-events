@@ -49,11 +49,10 @@ class WebhookControllerTest : KoinTest {
         val date = LocalDateTime.now()
         every { ctx.body<UnparsedWebhook>() } answers {
             UnparsedWebhook(
-                Issue(1, "Test", "Test Issue"),
+                Issue(1, "Test", "Test Issue", date),
                 "TestAction",
                 Sender("TestLogin"),
                 Repository("TestRepo"),
-                date,
                 null
             )
         }
@@ -61,11 +60,10 @@ class WebhookControllerTest : KoinTest {
         verify {
             webhookServiceStub.create(
                 UnparsedWebhook(
-                    Issue(1, "Test", "Test Issue"),
+                    Issue(1, "Test", "Test Issue", date),
                     "TestAction",
                     Sender("TestLogin"),
                     Repository("TestRepo"),
-                    date,
                     null
                 ),
                 "TestEvent"

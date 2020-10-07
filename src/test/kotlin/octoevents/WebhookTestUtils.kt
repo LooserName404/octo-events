@@ -18,13 +18,12 @@ import org.koin.dsl.module
 import java.time.LocalDateTime
 
 fun makeUnparsedWebhook(): UnparsedWebhook {
-    val issue = Issue(1, "Test", "Test Issue")
+    val issue = Issue(1, "Test", "Test Issue", LocalDateTime.MIN)
     val action = "TestAction"
     val sender = Sender("TestSender")
     val repository = Repository("TestRepo")
-    val createdAt = LocalDateTime.MIN
     val comment: Comment? = null
-    return UnparsedWebhook(issue, action, sender, repository, createdAt, comment)
+    return UnparsedWebhook(issue, action, sender, repository, comment)
 }
 
 fun makeWebhook(): Webhook {

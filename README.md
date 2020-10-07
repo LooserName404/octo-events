@@ -1,55 +1,25 @@
 # Octo Events
 
-Octo Events é uma aplicação que recebe eventos do Github Events via webhooks e os expõe via API para uso futuro.
+An application that receives GitHub Webhooks, store them in a database and serve them through API.
 
-![alt text](imgs/octo_events.png)
+## Usage
 
- O teste consiste na construção de 2 endpoints:
+First, install `ngrok`, then run `ngrok http 9090` (if you want to change the application port, change the `octoevents.config.AppFactory.PORT` variable.).
 
-## 1. Endpoint Webhook
+Then run this app using `./gradlew run` (Linux/Mac) or `gradlew.bat run` (Windows).
 
-O endpoint Webhook recebe eventos do Github e os salva no banco. A fim de implementá-lo, leia os seguintes docs:
+Finally, create a new webhook on GitHub repository using the url `ngrok-provided-url/events`,
+set the content type to `application/json`, and on the trigger events selection, choose `Let me select individual events`
+and mark just `Issues` and `Issue comments`, then confirm creation.
 
-* Webhooks Overview: https://developer.github.com/webhooks/ 
-* Creating Webhooks : https://developer.github.com/webhooks/creating/
+## How it works
 
-O endpoint deve ser disponibilizado em `/events`
+The `POST /events` route receive a webhook from GitHub and save it in a database which is defined in the `application.properties` file.
 
-## 2. Endpoint Events 
+Then, the events of a specific issue can be accessed through `GET /issues/{issue-number}/events`. 
 
-O endpoint Events irá expor eventos por uma API que os filtrará através do número da issue:
+## Testing
 
-**Request:**
+To run all the tests in this application, just run `./gradlew test` or `gradlew.bat test`.
 
-> GET /issues/1000/events
-
-**Response:**
-
-> 200 OK
-```javascript
-[ 
-  { "action": "open", created_at: "...",}, 
-  { "action": "closed", created_at: "...",} 
-]
-```
-
-**Instruções de integração com o Github **
-
-* Dica: Você pode usar o ngrok (https://ngrok.com/) para instalar / debugar as chamadas do webhook. Ele gera uma URL pública que irá rotear para sua máquina:
-
-   $ sudo ngrok http 4000 
-
-![alt text](imgs/ngrok.png)
-
-   GitHub
-
-![alt text](imgs/add_webhook.png)
- 
-**Observações finais**
-
-* Use qualquer biblioteca ou framework que quiser, você não precisa fazer nada "do zero";
-* Ë obrigatório escrever testes, use seu framework favorito pra isso;
-* Use o Postgres 9.6 como banco;
-* Adicione um README.md com instruções para executar o projeto.
-* Executaremos seu código com a última versão do Java ou Kotlin (se usar);
-* Sucesso! :-)
+The Integration tests run in the port 9999 and use an in-memory h2 database.

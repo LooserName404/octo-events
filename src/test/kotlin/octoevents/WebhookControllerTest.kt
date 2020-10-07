@@ -95,40 +95,40 @@ class WebhookControllerTest : KoinTest {
     }
 
     @Test
-    fun `Should call listAll from WebhookService when listAll is called`() {
+    fun `Should call listByIssue from WebhookService when listByIssue is called`() {
         val sut = WebhookController()
-        sut.listAll(ctx)
-        verify { webhookServiceStub.listAll(1) }
+        sut.listByIssue(ctx)
+        verify { webhookServiceStub.listByIssue(1) }
     }
 
     @Test
-    fun `Should pass the correct data to WebhookService listAll`() {
+    fun `Should pass the correct data to WebhookService listByIssue`() {
         val sut = WebhookController()
-        sut.listAll(ctx)
-        verify { webhookServiceStub.listAll(1) }
+        sut.listByIssue(ctx)
+        verify { webhookServiceStub.listByIssue(1) }
 
         every { ctx.pathParam<Int>("issue").get() } answers { 2 }
-        sut.listAll(ctx)
-        verify { webhookServiceStub.listAll(2) }
+        sut.listByIssue(ctx)
+        verify { webhookServiceStub.listByIssue(2) }
 
         every { ctx.pathParam<Int>("issue").get() } answers { 100 }
-        sut.listAll(ctx)
-        verify { webhookServiceStub.listAll(100) }
+        sut.listByIssue(ctx)
+        verify { webhookServiceStub.listByIssue(100) }
     }
 
     @Test(expected = Exception::class)
-    fun `Should throw if WebhookService listAll throws`() {
-        every { webhookServiceStub.listAll(1) } throws Exception()
+    fun `Should throw if WebhookService listByIssue throws`() {
+        every { webhookServiceStub.listByIssue(1) } throws Exception()
 
         val sut = WebhookController()
-        sut.listAll(ctx)
+        sut.listByIssue(ctx)
     }
 
     @Test
     fun `Should respond with Webhook list when listAll runs correctly`() {
-        every { webhookServiceStub.listAll(1) } answers { listOf<Webhook>() }
+        every { webhookServiceStub.listByIssue(1) } answers { listOf<Webhook>() }
         val sut = WebhookController()
-        sut.listAll(ctx)
+        sut.listByIssue(ctx)
         verify { ctx.json(listOf<Webhook>()) }
     }
 }

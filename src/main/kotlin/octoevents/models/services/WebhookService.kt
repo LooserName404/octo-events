@@ -28,4 +28,8 @@ class WebhookService : KoinComponent {
 
         webhookRepository.insert(webhook)
     }
+
+    fun listAll(issue: Int) {
+
+    }
 }

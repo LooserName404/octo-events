@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class PgWebhookRepository : KoinComponent, WebhookRepository {
+class DbWebhookRepository : KoinComponent, WebhookRepository {
     private val db by inject<Database>()
 
     override fun insert(webhook: Webhook) {

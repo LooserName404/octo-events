@@ -29,7 +29,7 @@ class WebhookService : KoinComponent {
         webhookRepository.insert(webhook)
     }
 
-    fun listAll(issue: Int) {
-
+    fun listAll(issue: Int): Map<Int, Webhook> {
+        return mapOf()
     }
 }

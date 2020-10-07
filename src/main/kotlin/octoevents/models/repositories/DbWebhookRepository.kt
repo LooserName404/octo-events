@@ -1,7 +1,6 @@
 package octoevents.models.repositories
 
-import octoevents.models.entities.Webhook
-import octoevents.models.entities.WebhookEntity
+import octoevents.models.entities.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.core.KoinComponent

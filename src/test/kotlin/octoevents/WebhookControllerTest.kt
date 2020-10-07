@@ -5,10 +5,7 @@ import io.mockk.*
 import octoevents.controllers.WebhookController
 import octoevents.models.entities.Webhook
 import octoevents.models.services.WebhookService
-import octoevents.models.unparsed.Issue
-import octoevents.models.unparsed.Repository
-import octoevents.models.unparsed.Sender
-import octoevents.models.unparsed.UnparsedWebhook
+import octoevents.models.unparsed.*
 import org.junit.Rule
 import org.koin.dsl.module
 import org.koin.test.KoinTest

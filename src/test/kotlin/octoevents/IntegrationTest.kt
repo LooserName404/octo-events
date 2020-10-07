@@ -1,25 +1,17 @@
 package octoevents
 
-import io.javalin.Javalin
 import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.SpyK
 import io.mockk.mockkClass
-import io.mockk.spyk
 import kong.unirest.HttpResponse
 import kong.unirest.Unirest
-import octoevents.config.AppFactory
 import octoevents.models.unparsed.*
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Rule
-import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.mock.MockProviderRule
-import org.koin.test.mock.declareMock
 import java.time.LocalDateTime
-import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

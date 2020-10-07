@@ -1,9 +1,6 @@
 package octoevents
 
-import io.mockk.every
-import io.mockk.mockkClass
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
 import octoevents.models.entities.Webhook
 import octoevents.models.services.WebhookService
 import org.junit.Rule
@@ -12,7 +9,6 @@ import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.mock.MockProviderRule
 import java.time.LocalDateTime
-import java.util.*
 import kotlin.test.Test
 
 class WebhookServiceTest : KoinTest {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Sender(val name: String = "")
+data class Sender(val login: String = "")
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Repository(val full_name: String = "")

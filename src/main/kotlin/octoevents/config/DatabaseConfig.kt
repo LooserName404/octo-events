@@ -12,10 +12,12 @@ fun getPgConnection(): Database {
         user = "octo",
         password = "octo"
     )
+    startSchemas(db)
+    return db
+}
 
-    transaction {
+fun startSchemas(db: Database) {
+    transaction(db) {
         SchemaUtils.create(WebhookTable)
     }
-
-    return db
 }

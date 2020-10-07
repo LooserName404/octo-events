@@ -18,6 +18,7 @@ class AppFactory {
 
         fun makeRoutes(app: Javalin) {
             app.post("/events", WebhookController()::create)
+            app.get("/issues/:issue/events", WebhookController()::listByIssue)
         }
     }
 }

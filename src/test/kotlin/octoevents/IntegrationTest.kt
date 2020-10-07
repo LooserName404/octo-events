@@ -39,6 +39,7 @@ class IntegrationTest : KoinTest {
             Unirest
                 .post("http://localhost:9999/events")
                 .header("X-GitHub-Event", "testEvent")
+                .header("Content-Type", "application/json")
                 .body(UnparsedWebhook(
                     Issue(1, "Test", "Test Issue", LocalDateTime.now()),
                     "testAction",

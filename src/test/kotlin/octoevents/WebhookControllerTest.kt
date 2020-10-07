@@ -1,5 +1,6 @@
 package octoevents
 
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import io.mockk.*
 import octoevents.controllers.WebhookController
@@ -38,6 +39,7 @@ class WebhookControllerTest : KoinTest {
 
     @BeforeTest
     fun setUp() {
+        every { ctx.contentType() } answers { "application/json" }
         every { ctx.header<String>("X-GitHub-Event").get() } answers { "TestEvent" }
         every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
         every { ctx.pathParam<Int>("issue").get() } answers { 1 }
@@ -100,6 +102,13 @@ class WebhookControllerTest : KoinTest {
         sut.create(ctx)
         verify { ctx.status(204) }
         verify(exactly = 0) { webhookServiceStub.create(makeUnparsedWebhook(), "ping") }
+    }
+
+    @Test(expected = BadRequestResponse::class)
+    fun `Should respond with status code 400 when content type is not json`() {
+        every { ctx.contentType() } answers { "application/x-www-form-urlencoded" }
+        val sut = WebhookController()
+        sut.create(ctx)
     }
 
     @Test

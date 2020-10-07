@@ -41,6 +41,7 @@ class WebhookControllerTest : KoinTest {
         every { ctx.header<String>("X-GitHub-Event").get() } answers { "TestEvent" }
         every { ctx.body<UnparsedWebhook>() } answers { makeUnparsedWebhook() }
         every { ctx.pathParam<Int>("issue").get() } answers { 1 }
+        every { webhookServiceStub.listByIssue(1) } answers { listOf(makeWebhook()) }
     }
 
     @Test
@@ -132,10 +133,17 @@ class WebhookControllerTest : KoinTest {
     }
 
     @Test
-    fun `Should respond with Webhook list when listAll runs correctly`() {
-        every { webhookServiceStub.listByIssue(1) } answers { listOf<Webhook>() }
+    fun `Should respond with Webhook list when listByIssue runs correctly`() {
         val sut = WebhookController()
         sut.listByIssue(ctx)
-        verify { ctx.json(listOf<Webhook>()) }
+        verify { ctx.json(listOf(makeWebhook())) }
+    }
+
+    @Test
+    fun `Should respond with status code 404 when cannot find the given Issue`() {
+        every { webhookServiceStub.listByIssue(1) } answers { listOf() }
+        val sut = WebhookController()
+        sut.listByIssue(ctx)
+        verify { ctx.status(404) }
     }
 }

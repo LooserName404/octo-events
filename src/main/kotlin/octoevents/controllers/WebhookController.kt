@@ -2,6 +2,7 @@ package octoevents.controllers
 
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
+import io.javalin.http.NotFoundResponse
 import octoevents.models.entities.Webhook
 import octoevents.models.services.WebhookService
 import octoevents.models.unparsed.UnparsedWebhook
@@ -30,8 +31,7 @@ class WebhookController : KoinComponent {
         val issue = ctx.pathParam<Int>("issue").get()
         val webhooks = webhookService.listByIssue(issue)
         if (webhooks.isEmpty()) {
-            ctx.status(404)
-            return
+            throw NotFoundResponse("No event found for issue $issue.")
         }
         ctx.json(webhooks)
     }

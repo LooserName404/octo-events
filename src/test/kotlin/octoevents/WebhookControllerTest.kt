@@ -2,6 +2,7 @@ package octoevents
 
 import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
+import io.javalin.http.NotFoundResponse
 import io.mockk.*
 import octoevents.controllers.WebhookController
 import octoevents.models.entities.Webhook
@@ -125,10 +126,12 @@ class WebhookControllerTest : KoinTest {
         verify { webhookServiceStub.listByIssue(1) }
 
         every { ctx.pathParam<Int>("issue").get() } answers { 2 }
+        every { webhookServiceStub.listByIssue(2) } answers { listOf(makeWebhook()) }
         sut.listByIssue(ctx)
         verify { webhookServiceStub.listByIssue(2) }
 
         every { ctx.pathParam<Int>("issue").get() } answers { 100 }
+        every { webhookServiceStub.listByIssue(100) } answers { listOf(makeWebhook()) }
         sut.listByIssue(ctx)
         verify { webhookServiceStub.listByIssue(100) }
     }
@@ -148,11 +151,10 @@ class WebhookControllerTest : KoinTest {
         verify { ctx.json(listOf(makeWebhook())) }
     }
 
-    @Test
+    @Test(expected = NotFoundResponse::class)
     fun `Should respond with status code 404 when cannot find the given Issue`() {
         every { webhookServiceStub.listByIssue(1) } answers { listOf() }
         val sut = WebhookController()
         sut.listByIssue(ctx)
-        verify { ctx.status(404) }
     }
 }

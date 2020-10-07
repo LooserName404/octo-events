@@ -24,6 +24,10 @@ class DbWebhookRepository : KoinComponent, WebhookRepository {
     }
 
     override fun findByIssue(issue: Int): List<Webhook> {
-        TODO("Not yet implemented")
+        return transaction(db) {
+            WebhookEntity.find { WebhookTable.issue eq issue }.map {
+                Webhook(it.event, it.issue, it.text, it.action, it.sender, it.repository, it.createdAt)
+            }
+        }
     }
 }

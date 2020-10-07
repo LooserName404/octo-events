@@ -8,10 +8,6 @@ class AppFactory {
     companion object {
         private const val PORT = 9090
         fun makeApp(): Javalin {
-            startKoin {
-                modules(injectableModules)
-            }
-
             val app = Javalin.create().start(PORT)
             makeRoutes(app)
 

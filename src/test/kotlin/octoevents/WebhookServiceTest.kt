@@ -69,7 +69,7 @@ class WebhookServiceTest : KoinTest {
     }
 
     @Test(expected = Exception::class)
-    fun `Should throw when WebhookRepository throws`() {
+    fun `Should throw when WebhookRepository create throws`() {
         val webhook = makeWebhook()
         every { webhookRepositoryStub.insert(webhook) } throws Exception("TestException")
         val sut = WebhookService()
@@ -81,5 +81,18 @@ class WebhookServiceTest : KoinTest {
         val sut = WebhookService()
         sut.listByIssue(1)
         verify { webhookRepositoryStub.findByIssue(1) }
+    }
+
+    @Test
+    fun `Should pass the correct issue number to WebhookRespository findByIssue`() {
+        val sut = WebhookService()
+        sut.listByIssue(1)
+        verify { webhookRepositoryStub.findByIssue(1) }
+
+        sut.listByIssue(3)
+        verify { webhookRepositoryStub.findByIssue(3) }
+
+        sut.listByIssue(33)
+        verify { webhookRepositoryStub.findByIssue(33) }
     }
 }

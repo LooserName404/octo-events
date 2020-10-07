@@ -13,6 +13,9 @@ class WebhookController : KoinComponent {
     private val webhookService by inject<WebhookService>()
 
     fun create(ctx: Context) {
+        if (ctx.contentType() != "application/json") {
+            throw BadRequestResponse("Content-Type doesn't match application/json")
+        }
         val event = ctx.header<String>("X-GitHub-Event").get()
         if (event == "ping") {
             ctx.status(204)

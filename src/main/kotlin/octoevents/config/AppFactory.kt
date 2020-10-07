@@ -6,7 +6,7 @@ import org.koin.core.context.startKoin
 
 class AppFactory {
     companion object {
-        private const val PORT = 9090
+        var PORT = 9090
         fun makeApp(): Javalin {
             val app = Javalin.create().start(PORT)
             makeRoutes(app)

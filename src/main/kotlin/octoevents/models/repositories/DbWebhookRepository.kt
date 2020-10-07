@@ -22,4 +22,8 @@ class DbWebhookRepository : KoinComponent, WebhookRepository {
             }
         }
     }
+
+    override fun findByIssue(issue: Int): List<Webhook> {
+        TODO("Not yet implemented")
+    }
 }

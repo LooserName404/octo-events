@@ -30,6 +30,6 @@ class WebhookService : KoinComponent {
     }
 
     fun listByIssue(issue: Int): List<Webhook> {
-        return listOf()
+        return webhookRepository.findByIssue(issue)
     }
 }

@@ -26,6 +26,10 @@ class WebhookController : KoinComponent {
     fun listByIssue(ctx: Context) {
         val issue = ctx.pathParam<Int>("issue").get()
         val webhooks = webhookService.listByIssue(issue)
+        if (webhooks.isEmpty()) {
+            ctx.status(404)
+            return
+        }
         ctx.json(webhooks)
     }
 }

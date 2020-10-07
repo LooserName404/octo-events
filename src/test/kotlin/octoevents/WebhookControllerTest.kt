@@ -74,7 +74,7 @@ class WebhookControllerTest : KoinTest {
     }
 
     @Test
-    fun `Should pass the right data to WebhookService create method`() {
+    fun `Should pass the correct data to WebhookService create method`() {
         val sut = WebhookController()
         sut.create(ctx)
         verify { webhookServiceStub.create(makeUnparsedWebhook(), "TestEvent") }
@@ -114,5 +114,13 @@ class WebhookControllerTest : KoinTest {
         every { ctx.pathParam<Int>("issue").get() } answers { 100 }
         sut.listAll(ctx)
         verify { webhookServiceStub.listAll(100) }
+    }
+
+    @Test(expected = Exception::class)
+    fun `Should throw if WebhookService listAll throws`() {
+        every { webhookServiceStub.listAll(1) } throws Exception()
+
+        val sut = WebhookController()
+        sut.listAll(ctx)
     }
 }
